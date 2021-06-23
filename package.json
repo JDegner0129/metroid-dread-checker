@@ -1,0 +1,37 @@
+{
+  "name": "metroid-dread-checker",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JDegner0129/metroid-dread-checker.git"
+  },
+  "keywords": [
+    "metroid",
+    "scraper"
+  ],
+  "author": "Jordan Degner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JDegner0129/metroid-dread-checker/issues"
+  },
+  "homepage": "https://github.com/JDegner0129/metroid-dread-checker#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "es6-promise": "^4.2.8",
+    "isomorphic-fetch": "^3.0.0",
+    "jsdoc": "^3.6.7",
+    "jsdom": "^16.6.0",
+    "puppeteer": "^10.0.0",
+    "puppeteer-extra": "^3.1.18",
+    "puppeteer-extra-plugin-stealth": "^2.7.8",
+    "user-agents": "^1.0.690",
+    "webpack": "^5.40.0",
+    "webpack-cli": "^4.7.2"
+  }
+}
