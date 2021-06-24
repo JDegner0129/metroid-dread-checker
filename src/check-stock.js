@@ -3,7 +3,6 @@ const checkStock = () => {
     'www.gamestop.com': '#add-to-cart',
     'www.walmart.com': '.prod-ProductCTA--primary',
     'www.amazon.com': '#buybox',
-    'metroid.nintendo.com': '.buy-section__about--special',
     'www.target.com': '[data-test=preorderSellable]'
   };
 
@@ -41,9 +40,6 @@ const checkStock = () => {
 
   if (!element) {
     result.inStock = false;
-  }
-  else if (window.location.host === 'metroid.nintendo.com') {
-    result.inStock = element.getElementsByClassName('coming-soon').length === 0;
   }
   else if (window.location.host === 'www.amazon.com') {
     result.inStock = element.firstElementChild.id.startsWith('qualifiedBuyBox');
