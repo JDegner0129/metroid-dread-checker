@@ -13,7 +13,9 @@ dotenv.config();
 puppeteer.use(StealthPlugin());
 
 const INTERVAL_MS = 10000;
+const NINTENDO_URL = 'https://www.nintendo.com/products/detail/metroid-dread-special-edition';
 const LISTING_URLS = [
+  NINTENDO_URL,
   'https://www.amazon.com/dp/B097B15RT8/ref=sr_1_1',
   'https://www.gamestop.com/video-games/nintendo-switch/games/products/metroid-dread-special-edition---nintendo-switch/11149359.html',
   'https://www.walmart.com/ip/Metroid-Dread-Special-Edition-Nintendo-Switch-Physical/805331040',
@@ -31,7 +33,7 @@ const LISTING_URLS = [
 
     const agent = new UserAgent();
     await page.setUserAgent(agent.toString());
-    await page.goto(url, { waitUntil: 'networkidle2' });
+    await page.goto(url, { waitUntil: 'networkidle0' });
 
     console.log(`Loaded ${url}`);
     return page;
@@ -44,14 +46,21 @@ const LISTING_URLS = [
   });
 
   while (true) {
-    const checkStockPromises = pages.map(page => {
+    const checkStockPromises = pages.map(async page => {
       console.log(`[${dateFormatter.format(new Date())}] Checking for stock at ${page.url()}`);
+
+      // If we're loading the Nintendo product page, we need to open a modal
+      if (page.url().startsWith(NINTENDO_URL)) {
+        page.click('#wtb-button');
+        await sleep(500);
+      }
 
       return page.evaluate(checkStock);
     });
     const checkStockResults = await Promise.all(checkStockPromises);
 
-    const discordMessagePromises = checkStockResults.map(async ({ host, url, inStock }) => {
+    const discordMessagePromises = checkStockResults.map(async ({ host, url, inStock, logOutput }) => {
+      if (logOutput) console.log(logOutput);
       if (!inStock) return;
 
       await sendDiscordMessage(host, url);
@@ -62,7 +71,7 @@ const LISTING_URLS = [
       const newAgent = new UserAgent();
 
       await p.setUserAgent(newAgent.toString());
-      await p.reload({ waitUntil: 'networkidle2' });
+      await p.reload({ waitUntil: 'networkidle0' });
     });
 
     await Promise.all(pageReloadPromises);

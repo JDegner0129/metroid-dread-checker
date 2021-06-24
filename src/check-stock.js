@@ -7,14 +7,37 @@ const checkStock = () => {
     'www.target.com': '[data-test=preorderSellable]'
   };
 
-  const selector = selectorsByHost[window.location.host];
-  const element = window.document.querySelector(selector);
-
   const result = {
     host: window.location.host,
     url: window.location.href,
     inStock: false,
   };
+
+  // Nintendo's page works a bit differently in that we're checking stock status of multiple vendors in a modal
+  if (window.location.host === 'www.nintendo.com') {
+    const stockTexts = document.getElementsByClassName('ps-stock-status');
+
+    if (!stockTexts.length) {
+      result.logOutput = `No stock statuses rendered on www.nintendo.com`;
+      return result;
+    }
+
+    for (const el of stockTexts) {
+      if (!el.innerText) continue;
+
+      const lowerText = el.innerText.toLowerCase().trim();
+      if (lowerText !== 'out of stock' && lowerText !== 'see website') {
+        result.logOutput = `Found potential stock in Nintendo modal: ${lowerText}`;
+        result.inStock = true;
+        break;
+      }
+    }
+
+    return result;
+  }
+
+  const selector = selectorsByHost[window.location.host];
+  const element = window.document.querySelector(selector);
 
   if (!element) {
     result.inStock = false;
