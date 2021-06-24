@@ -1,6 +1,5 @@
 const checkStock = () => {
   const selectorsByHost = {
-    'www.bestbuy.com': '.add-to-cart-button',
     'www.gamestop.com': '#add-to-cart',
     'www.walmart.com': '.prod-ProductCTA--primary',
     'www.amazon.com': '#buybox',

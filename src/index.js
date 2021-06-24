@@ -8,6 +8,8 @@ const { sendDiscordMessage } = require('./discord');
 const { sleep } = require('./utils');
 
 dotenv.config();
+
+// TODO: Just using stealth plugin and user-agent resets doesn't consistently get past Walmart
 puppeteer.use(StealthPlugin());
 
 const INTERVAL_MS = 10000;
@@ -56,8 +58,6 @@ const LISTING_URLS = [
     });
     await Promise.all(discordMessagePromises);
 
-    await sleep(INTERVAL_MS);
-
     const pageReloadPromises = pages.map(async p => {
       const newAgent = new UserAgent();
 
@@ -66,5 +66,7 @@ const LISTING_URLS = [
     });
 
     await Promise.all(pageReloadPromises);
+
+    await sleep(INTERVAL_MS);
   }
 })();
