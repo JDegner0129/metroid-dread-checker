@@ -4,13 +4,30 @@ I got tired of refreshing a bunch of different vendors' listings for the Metroid
 
 ## Setup
 
-You'll need to add a `.env` file to your project for use with `dotenv` or otherwise pass a DISCORD_WEBHOOK_URL environment variable into the Node process:
+You'll need to add a `.env` file to your project for use with `dotenv`:
 
 ```
+# .env file
 DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/my-discord-webhook
 ```
 
-After that, you can run the code natively using `yarn start` (though you may need to work around native environment issues with Puppeteer) or in Docker using something like `docker run --init <your-container-tag>` after building the Docker image.
+## Running
+
+### OSX/Linux
+
+You can run the included `run.sh` Bash script to start a Docker container and follow its logs:
+
+```
+> ./run.sh your-image-name-here
+```
+
+### Windows
+
+You can run the included `run.ps1` PowerShell script to start a Docker container and follow its logs:
+
+```
+> ./run.ps1 -ImageName your-image-name-here
+```
 
 ## Known Issues
 
