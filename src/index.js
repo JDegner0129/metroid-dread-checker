@@ -96,7 +96,10 @@ let failureCount = 0;
       failureCount += 1;
 
       try {
-        await sendDiscordMessage(`A failure prevented the checker process from checking for stock. It might need attention. :eyes: ${err}`);
+        const message = `A failure prevented the checker process from checking for stock. It might need attention. :eyes: ${err}`;
+
+        logWithTimestamp(message, 'error');
+        await sendDiscordMessage(message);
       } catch (innerErr) {
         // We could use performAsyncWithRetries, but if we reach this sort of failure, it's unlikely that quick retries would help
         logWithTimestamp('Failed to send script failure message to Discord', 'error', innerErr);

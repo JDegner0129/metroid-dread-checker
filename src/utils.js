@@ -11,7 +11,7 @@ const sleep = (ms) => {
 };
 
 const logWithTimestamp = (message, logLevel = 'info', ...args) => {
-  console[logLevel](`[${dateFormatter.format(new Date())}] ${message}`, ...args);
+  console[logLevel](`[${logLevel.toUpperCase()}] [${dateFormatter.format(new Date())}] ${message}`, ...args);
 };
 
 const performAsyncWithRetries = async (fn, errFn, retryCount) => {
